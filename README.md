@@ -1,0 +1,2 @@
+# blueprint
+Tinami devices configurator
