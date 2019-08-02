@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>content/images/Logo-MD1BP.svg</file>
+        <file>content/images/back.svg</file>
+        <file>content/images/knob-sel.svg</file>
+        <file>content/images/button.svg</file>
+        <file>content/images/knob.svg</file>
+        <file>content/images/background.png</file>
+        <file>content/images/Button-s.svg</file>
+        <file>content/images/Button-w.svg</file>
+        <file>content/images/Knob-s.svg</file>
+        <file>content/images/Knob-w.svg</file>
+        <file>content/images/Knob-w-animation.svg</file>
+        <file>content/images/Knob-w-back.svg</file>
+        <file>content/images/knobS.svg</file>
+        <file>content/images/buttonS.svg</file>
+        <file>content/images/clock.svg</file>
+        <file>content/PresetButton.qml</file>
+        <file>content/ComponentButton.qml</file>
+    </qresource>
+</RCC>
