@@ -25,7 +25,6 @@
 BackEnd::BackEnd(QObject *parent) :
         QObject(parent)
 {
-        set_layout = false;          //  Bool variable used only to known if the tinami is conected for the first time
 
         setDeviceStatus(Unplugged);       //  Select Variable. Values: "unplugged"; "connected"; "wrongData"; "okData"; "working"
         conf_state = Request;
@@ -265,28 +264,9 @@ void BackEnd::readDeviceConfiguration(ConfigStatus &conf_state){
                         this->timerLoop->start(timerLoopInterval);
                         return;
                 }
-                conf_state = WaitFinish;//conf_state = WaitOK;
+                conf_state = WaitFinish;
                 packet_num_buffer = 0;
                 this->timerLoop->start(100);
-                break;
-
-        case WaitOK:
-                this->timerLoop->stop();
-                qDebug() << "#";
-                memset(data_in,0,BLUEPRINT_USB_HID_PACKET_SIZE);
-                if (hid_read_timeout(md1_device, data_in, BLUEPRINT_USB_HID_PACKET_SIZE, 1000) < 0){
-                        setDeviceStatus(Unplugged);
-                        conf_state = Request;
-                        qDebug() << "read error";
-                        this->timerLoop->start(timerLoopInterval);
-                        return;
-                }
-                if ((data_in[0] != SOF) && (data_in[1] != OK) && (data_in[2] != CMD_LAYOUT)){
-                        qDebug() << "Ok";
-                        conf_state = WaitFinish;
-                }
-                packet_num_buffer = 0;
-                this->timerLoop->start(timerLoopInterval);
                 break;
 
         case WaitFinish:
@@ -335,27 +315,24 @@ void BackEnd::setLayout(){
 
         this->timerLoop->stop();
 
-        setControl0Type(layout[0]); qDebug() << "#";
-        setControl1Type(layout[1]); qDebug() << "#";
-        setControl2Type(layout[2]); qDebug() << "#";
-        setControl3Type(layout[3]); qDebug() << "#";
-        setControl4Type(layout[4]); qDebug() << "#";
-        setControl5Type(layout[5]); qDebug() << "#";
-        setControl6Type(layout[6]); qDebug() << "#";
-        setControl7Type(layout[7]); qDebug() << "#";
-        setControl8Type(layout[8]); qDebug() << "#";
-        setControl9Type(layout[9]); qDebug() << "#";
-        setControl10Type(layout[10]); qDebug() << "#";
-        setControl11Type(layout[11]); qDebug() << "#";
-        setControl12Type(layout[12]); qDebug() << "#";
-        setControl13Type(layout[13]); qDebug() << "#";
-        setControl14Type(layout[14]); qDebug() << "#";
-        setControl15Type(layout[15]); qDebug() << "#";
+        qDebug() << "Setting Layout";
 
-        if(!set_layout){
-                set_layout = true;
-                //sleep(1);
-        }
+        setControl0Type(layout[0]);
+        setControl1Type(layout[1]);
+        setControl2Type(layout[2]);
+        setControl3Type(layout[3]);
+        setControl4Type(layout[4]);
+        setControl5Type(layout[5]);
+        setControl6Type(layout[6]);
+        setControl7Type(layout[7]);
+        setControl8Type(layout[8]);
+        setControl9Type(layout[9]);
+        setControl10Type(layout[10]);
+        setControl11Type(layout[11]);
+        setControl12Type(layout[12]);
+        setControl13Type(layout[13]);
+        setControl14Type(layout[14]);
+        setControl15Type(layout[15]);
 
         qDebug() << "Done\n";
         setDeviceStatus(Component);

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 Button {
     id: componentButton
 
-    property var name: ""
+    property string name: ""
     property int type: 0
     property int row: 0
     property int column: 0
@@ -26,7 +26,7 @@ Button {
         source: {
             if(type === 1)
                 componentButton.checked ? "qrc:///content/images/buttonS.svg" : "qrc:///content/images/button.svg"
-            if(type === 2)
+            else if(type === 2)
                 componentButton.checked ? "qrc:///content/images/knobS.svg" : "qrc:///content/images/knob.svg"
         }
     }

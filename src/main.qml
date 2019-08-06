@@ -17,7 +17,7 @@ Window {
     visible: true
     width: 1024
     height: 768
-    title: qsTr("Tinami")
+    title: qsTr("Blueprint")
 
     BackEnd {
         id: backend
@@ -84,40 +84,6 @@ Window {
 
         onComponentMaxValueChanged: {
             componentMaxValue_textInput.text = componentMaxValue;
-        }
-
-        onControl0TypeChanged:{
-
-        }
-        onControl1TypeChanged:{
-        }
-        onControl2TypeChanged:{
-        }
-        onControl3TypeChanged:{
-        }
-        onControl4TypeChanged:{
-        }
-        onControl5TypeChanged:{
-        }
-        onControl6TypeChanged:{
-        }
-        onControl7TypeChanged:{
-        }
-        onControl8TypeChanged:{
-        }
-        onControl9TypeChanged:{
-        }
-        onControl10TypeChanged:{
-        }
-        onControl11TypeChanged:{
-        }
-        onControl12TypeChanged:{
-        }
-        onControl13TypeChanged:{
-        }
-        onControl14TypeChanged:{
-        }
-        onControl15TypeChanged:{
         }
 
         onSynchronizingChanged: {
@@ -627,9 +593,9 @@ Window {
             property int xo: 34
             property int yo: 50
 
-            property var i: 0
-            property var j: 0
-            property var component: 0
+            property int i: 0
+            property int j: 0
+            property int component: 0
 
             function selectComponentWithKeys(){
                 back_controler.component = back_controler.i * 4 + back_controler.j;

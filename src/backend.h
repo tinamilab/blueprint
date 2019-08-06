@@ -70,7 +70,6 @@ public:
 
         enum ConfigStatus{
             Request,
-            WaitOK,
             WaitFinish,
         };
 
