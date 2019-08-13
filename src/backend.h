@@ -77,7 +77,6 @@ public:
 
         enum ReadPresetStatus{
             Request_Preset,
-            WaitOK_Preset,
             WaitFinish_Preset,
         };
 
@@ -325,7 +324,6 @@ private:
 
         void readPreset(const unsigned char &preset);
         void redPresetReq(const unsigned char &preset);
-        void WaitOKPreset();
         void WaitFinishPreset(const unsigned char &preset);
 
         void syncReq();

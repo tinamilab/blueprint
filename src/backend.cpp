@@ -85,6 +85,7 @@ void BackEnd::timer_timeout(){
                 break;
         case Component:
                 setPreset(0);
+                emit presetChanged();
                 readPreset(0);
                 setDeviceStatus(Working);
                 break;
@@ -107,9 +108,6 @@ void BackEnd::timerRead_timeout(){
         switch (preset_status) {
         case Request_Preset:
                 redPresetReq(m_preset);
-                break;
-        case WaitOK_Preset:
-                WaitOKPreset();
                 break;
         case WaitFinish_Preset:
                 WaitFinishPreset(m_preset);
@@ -700,34 +698,6 @@ void BackEnd::redPresetReq(const unsigned char &preset){
         qDebug() << "Read Preset request send" << preset;
         preset_status = WaitFinish_Preset;//preset_status = WaitOK_Preset;
         this->timerRead->start(timerReadInterval);
-        return;
-
-}
-
-void BackEnd::WaitOKPreset(){
-
-        this ->timerRead->stop();
-
-        unsigned char data_in[BLUEPRINT_USB_HID_PACKET_SIZE]; //data to read
-
-        memset(data_in,0,BLUEPRINT_USB_HID_PACKET_SIZE);
-
-        qDebug() << "#";
-        if (hid_read_timeout(md1_device, data_in, BLUEPRINT_USB_HID_PACKET_SIZE, 1000) < 0){
-                setDeviceStatus(Unplugged);
-                qDebug() << "read error";
-                this->timerLoop->start(timerLoopInterval);
-                return;
-        }
-        for (int i = 0; i < 64; ++i) {
-                qDebug() << data_in[i];
-        }
-        if((data_in[0] != SOF) && (data_in[1] != OK) && (data_in[2] != CMD_PRESET)){
-                qDebug() << "Ok";
-                preset_status = WaitFinish_Preset;
-        }
-
-        this ->timerRead->start(timerReadInterval);
         return;
 
 }

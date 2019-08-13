@@ -46,6 +46,10 @@ Window {
             }
         }
 
+        onPresetChanged: {
+            a1ComponentB.checked = true;
+        }
+
         onComponentModeChanged: {
             switch(backend.deviceMode){
             case BackEnd.VoiceNote:
