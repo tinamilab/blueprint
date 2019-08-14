@@ -128,9 +128,6 @@ void BackEnd::timerSync_timeout(){
         case Request_Sync:
                 syncReq();
                 break;
-        case WaitOK_Sync:
-                WaitOKSync();
-                break;
         case SendLayout_Sync:
                 SendLayoutSync();
                 break;
@@ -771,29 +768,6 @@ void BackEnd::syncReq(){
 
         qDebug() << "Read request send";
         sync_status = SendLayout_Sync;
-}
-
-void BackEnd::WaitOKSync(){
-
-        unsigned char data_in[BLUEPRINT_USB_HID_PACKET_SIZE]; //data to read
-        memset(data_in,0,BLUEPRINT_USB_HID_PACKET_SIZE);
-
-        if (hid_read_timeout(md1_device, data_in, BLUEPRINT_USB_HID_PACKET_SIZE, 1000) < 0){
-                setDeviceStatus(Unplugged);
-                qDebug() << " read error";
-                this->timerSync->stop();
-                this->timerLoop->start(timerLoopInterval);
-                return;
-        }
-        for (int i = 0; i < BLUEPRINT_USB_DATA_PACKET_SIZE; i++) {
-                qDebug() << data_in[i + 1];
-        }
-
-        if((data_in[0] == SOF) && (data_in[1] == OK) ){
-                qDebug() << "Ok";
-                sync_status = SendLayout_Sync;
-        }
-        return;
 }
 
 void BackEnd::SendLayoutSync(){

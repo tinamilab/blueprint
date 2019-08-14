@@ -21,9 +21,9 @@ class BackEnd : public QObject
 {
         Q_OBJECT
 
-        Q_PROPERTY(unsigned char preset READ preset WRITE setPreset NOTIFY presetChanged)
-
         Q_PROPERTY(DeviceStatus deviceStatus READ deviceStatus WRITE setDeviceStatus NOTIFY deviceStatusChanged)
+
+        Q_PROPERTY(unsigned char preset READ preset WRITE setPreset NOTIFY presetChanged)
 
         Q_PROPERTY(unsigned char component READ component WRITE selectComponent NOTIFY componentChanged)
         Q_PROPERTY(ComponentButtonBehaviour componentButtonBehaviour READ componentButtonBehaviour WRITE setComponentButtonBehaviour NOTIFY componentButtonBehaviourChanged)
@@ -84,7 +84,6 @@ public:
 
         enum SyncStatus{
             Request_Sync,
-            WaitOK_Sync,
             SendLayout_Sync,
             SendFinish_Sync,
             SendReqPreset_Sync,
