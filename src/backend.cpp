@@ -32,7 +32,7 @@ BackEnd::BackEnd(QObject *parent) :
         sync_status = Request_Sync;
         memset(layout, 0, sizeof (layout));
         packet_num_buffer = 0;
-        setComponentChannel(0);
+        setComponentChannel(16);
         setComponentMinValue(0);
         setComponentMaxValue(127);
 
@@ -547,9 +547,9 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel){
 
         if(controlChannel == m_componentChannel)
                 return;
-        if (controlChannel == 0xFF || controlChannel == 0){
-            configuration.preset[m_preset].component[m_component].bytes.channel = 0;
-            m_componentChannel = 0;
+        if (controlChannel == 0xFF || controlChannel == 16){
+            configuration.preset[m_preset].component[m_component].bytes.channel = 16;
+            m_componentChannel = 16;
         } else {
             configuration.preset[m_preset].component[m_component].bytes.channel = controlChannel;
             m_componentChannel = controlChannel;
@@ -879,7 +879,7 @@ void BackEnd::SendPresetSync(){
         int offset = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_USB_DATA_PACKET_SIZE * packet_num_buffer;
 
         for (int i = 0; i < 16; ++i) {
-            if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 0)
+            if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 16)
                 configuration.preset[m_preset].component[i].bytes.channel = m_globalChannel;
         }
 
