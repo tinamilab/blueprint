@@ -17,6 +17,7 @@ class Control_midi : public QObject
     Q_PROPERTY(unsigned char componentType READ componentType WRITE set_componentType NOTIFY componentTypeChanged)
     Q_PROPERTY(QString mode READ mode WRITE set_mode NOTIFY modeChanged)
     Q_PROPERTY(unsigned char ccNumber READ ccNumber WRITE set_ccNumber NOTIFY ccNumberChanged)
+    Q_PROPERTY(unsigned char channel READ channel WRITE set_channel NOTIFY channelChanged)
     Q_PROPERTY(unsigned char minValue READ minValue WRITE set_minValue NOTIFY minValueChanged)
     Q_PROPERTY(unsigned char maxValue READ maxValue WRITE set_maxValue NOTIFY maxValueChanged)
 
@@ -30,6 +31,7 @@ public:
     unsigned char componentType() const {return m_componentType;}
     QString mode() const {return m_mode;}
     unsigned char ccNumber() const {return m_ccNumber;}
+    unsigned char channel() const {return m_channel;}
     unsigned char minValue() const {return m_minValue;}
     unsigned char maxValue() const {return m_maxValue;}
 
@@ -39,6 +41,7 @@ public slots:
     void set_componentType(const unsigned char &componentType);
     void set_mode(const QString &mode);
     void set_ccNumber(const unsigned char &ccNumber);
+    void set_channel(const unsigned char &channel);
     void set_minValue(const unsigned char &minValue);
     void set_maxValue(const unsigned char &maxValue);
 
@@ -48,6 +51,7 @@ signals:
     void componentTypeChanged();
     void modeChanged();
     void ccNumberChanged();
+    void channelChanged();
     void minValueChanged();
     void maxValueChanged();
 
@@ -57,6 +61,7 @@ private:
     unsigned char m_componentType;
     QString m_mode;
     unsigned char m_ccNumber;
+    unsigned char m_channel;
     unsigned char m_minValue;
     unsigned char m_maxValue;
 };

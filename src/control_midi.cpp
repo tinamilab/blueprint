@@ -44,7 +44,6 @@ void Control_midi::set_componentType(const unsigned char &componentType){
     m_componentType = componentType;
 
     emit componentTypeChanged();
-    //qDebug() << "NO SE QUE ES";
     return;
 }
 
@@ -80,6 +79,13 @@ void Control_midi::set_ccNumber(const unsigned char &ccNumber){
     return;
 }
 
+void Control_midi::set_channel(const unsigned char &channel){
+    if(channel == m_channel)
+        return;
+    m_channel = channel;
+    emit channelChanged();
+    return;
+}
 
 void Control_midi::set_minValue(const unsigned char &minValue){
 

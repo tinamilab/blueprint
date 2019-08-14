@@ -32,6 +32,7 @@ BackEnd::BackEnd(QObject *parent) :
         sync_status = Request_Sync;
         memset(layout, 0, sizeof (layout));
         packet_num_buffer = 0;
+        setComponentChannel(0);
         setComponentMinValue(0);
         setComponentMaxValue(127);
 
@@ -543,20 +544,16 @@ void BackEnd::setComponentMode(const ComponentMode &deviceMode){
 }
 
 void BackEnd::setComponentChannel(const unsigned char &controlChannel){
-        unsigned char channel = 0xFF;
 
         if(controlChannel == m_componentChannel)
                 return;
-
-        if ((controlChannel >= 1) && (controlChannel <= 16)){
-                channel = controlChannel - 1;
-                m_componentChannel = controlChannel;
+        if (controlChannel == 0xFF){
+            configuration.preset[m_preset].component[m_component].bytes.channel = 0;
+            m_componentChannel = 0;
+        } else {
+            configuration.preset[m_preset].component[m_component].bytes.channel = controlChannel;
+            m_componentChannel = controlChannel;
         }
-
-        configuration.preset[m_preset].component[m_component].bytes.channel = channel;
-
-        if (channel == 0xFF)
-                m_componentChannel = 0;
 
         emit componentChannelChanged();
         return;
