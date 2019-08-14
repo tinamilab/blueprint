@@ -1030,7 +1030,7 @@ Window {
                 ListElement{text: "15"}
                 ListElement{text: "16"}
             }
-            //onCurrentTextChanged: backend.setDeviceMode(currentIndex)
+            onCurrentTextChanged: backend.setGlobalChannel(currentIndex)
         }
 
         Text {

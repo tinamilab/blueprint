@@ -30,6 +30,7 @@ class BackEnd : public QObject
         Q_PROPERTY(ComponentMode componentMode READ componentMode WRITE setComponentMode NOTIFY componentModeChanged)
         Q_PROPERTY(unsigned char componentData READ componentData WRITE setComponentData NOTIFY componentDataChanged)
         Q_PROPERTY(unsigned char componentChannel READ componentChannel WRITE setComponentChannel NOTIFY componentChannelChanged)
+        Q_PROPERTY(unsigned char globalChannel READ globalChannel WRITE setGlobalChannel NOTIFY globalChannelChanged)
         Q_PROPERTY(unsigned char componentMinValue READ componentMinValue WRITE setComponentMinValue NOTIFY componentMinValueChanged)
         Q_PROPERTY(unsigned char componentMaxValue READ componentMaxValue WRITE setComponentMaxValue NOTIFY componentMaxValueChanged)
 
@@ -179,6 +180,8 @@ public:
 
         unsigned char componentChannel() const { return m_componentChannel;}
 
+        unsigned char globalChannel() const { return m_globalChannel;}
+
         unsigned char componentMinValue() const { return m_componentMinValue;}
 
         unsigned char componentMaxValue() const { return m_componentMaxValue;}
@@ -228,6 +231,7 @@ public slots:
 
         void setComponentData(const unsigned char &componentData);
         void setComponentChannel(const unsigned char &componentChannel);
+        void setGlobalChannel(const unsigned char &globalChannel);
         void setComponentMinValue(const unsigned char &componentMinValue);
         void setComponentMaxValue(const unsigned char &componentMaxValue);
 
@@ -265,6 +269,7 @@ signals:
         void componentModeChanged();
         void componentButtonBehaviourChanged();
         void componentChannelChanged();
+        void globalChannelChanged();
         void componentDataChanged();
         void componentMinValueChanged();
         void componentMaxValueChanged();
@@ -299,6 +304,7 @@ private:
         ComponentMode m_componentMode;
         unsigned char m_componentData = 0;
         unsigned char m_componentChannel = 0;
+        unsigned char m_globalChannel = 0;
         unsigned char m_componentMinValue = 0;
         unsigned char m_componentMaxValue = 0;
         unsigned char m_component = 0;

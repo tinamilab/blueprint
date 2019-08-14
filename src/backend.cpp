@@ -547,7 +547,7 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel){
 
         if(controlChannel == m_componentChannel)
                 return;
-        if (controlChannel == 0xFF){
+        if (controlChannel == 0xFF || controlChannel == 0){
             configuration.preset[m_preset].component[m_component].bytes.channel = 0;
             m_componentChannel = 0;
         } else {
@@ -556,6 +556,15 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel){
         }
 
         emit componentChannelChanged();
+        return;
+}
+
+void BackEnd::setGlobalChannel(const unsigned char &globalChannel){
+
+        if(globalChannel == m_globalChannel)
+                return;
+        m_globalChannel = globalChannel;
+        emit globalChannelChanged();
         return;
 }
 
@@ -868,6 +877,13 @@ void BackEnd::SendPresetSync(){
         qDebug() << "Sending preset" << m_preset << " package" << packet_num_buffer;
 
         int offset = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_USB_DATA_PACKET_SIZE * packet_num_buffer;
+
+        for (int i = 0; i < 16; ++i) {
+            if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 0)
+                configuration.preset[m_preset].component[i].bytes.channel = m_globalChannel;
+            else
+                configuration.preset[m_preset].component[i].bytes.channel = configuration.preset[m_preset].component[i].bytes.channel - 1;
+        }
 
         data_out[0] = 0;
         for(int i = 0; i < BLUEPRINT_USB_DATA_PACKET_SIZE; i++){
