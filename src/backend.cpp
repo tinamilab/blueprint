@@ -881,8 +881,6 @@ void BackEnd::SendPresetSync(){
         for (int i = 0; i < 16; ++i) {
             if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 0)
                 configuration.preset[m_preset].component[i].bytes.channel = m_globalChannel;
-            else
-                configuration.preset[m_preset].component[i].bytes.channel = configuration.preset[m_preset].component[i].bytes.channel - 1;
         }
 
         data_out[0] = 0;
