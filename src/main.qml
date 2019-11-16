@@ -50,7 +50,7 @@ ApplicationWindow{
         }
 
         onPresetChanged: {
-            a1ComponentB.checked = true;
+            componentButtons.itemAt(0).checked = true;
         }
 
         onComponentModeChanged: {
@@ -142,7 +142,7 @@ ApplicationWindow{
                 x: 60
                 y: 165
                 color: "#e8ac5b"
-                text: qsTr("knob a1")
+                text: qsTr("component")
                 font.bold: true
                 font.pixelSize: 36
                 font.family: "Arial"
@@ -350,24 +350,6 @@ ApplicationWindow{
                     backend.setComponentData(currentIndex)
                 }
             }
-            /*TextInput{
-                id: cc_txtInput
-                x: 186
-                y: 288
-                width: 200
-                height: 30
-                color: "#d9d1d1"
-                font.pixelSize: 14
-                font.family: "Arial"
-                text: backend.ccNumber
-                font.bold: true
-                topPadding: 6
-                inputMask: qsTr("")
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                onTextChanged: {
-                    backend.setCcNumber(text)
-                }
-            }*/
 
             Text {
                 id: channel_txt
@@ -648,7 +630,7 @@ ApplicationWindow{
                 selectComponentWithKeys();
             }
 
-            Grid {  //  Preset buttons grid
+            Grid {  //  Component buttons grid
                 id: componentGrid
                 x: 34
                 y: 50
@@ -716,7 +698,6 @@ ApplicationWindow{
                         }
 
                         type: {
-                            console.log(index)
                             switch(index){
                             case 0:
                                 backend.control0Type
@@ -891,7 +872,7 @@ ApplicationWindow{
                 if (text !== "unplugged"){
                     deviceBar.value = 1
                 }else {
-                    comp_name.text = "knob a1"
+                    comp_name.text = "component"
                     deviceBar.value = 0
                 }
             }
