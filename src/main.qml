@@ -10,14 +10,14 @@ import QtQml 2.1
 import com.tinami.backend 1.0
 //import io.qt.examples.controller 1.0
 
-import "content"
-
-Window {
-
+ApplicationWindow{
+    id: app
+    title: qsTr("Blueprint")
     visible: true
     width: 1024
     height: 768
-    title: qsTr("Blueprint")
+
+    property int currentPreset: 0
 
     BackEnd {
         id: backend
@@ -79,7 +79,10 @@ Window {
         }
 
         onComponentChannelChanged: {
-            componentChannel_combo.currentIndex = componentChannel;
+            if(componentChannel >= 16)
+                componentChannel_combo.currentIndex = 16;
+            else
+                componentChannel_combo.currentIndex = componentChannel;
         }
 
         onComponentMinValueChanged: {
@@ -99,6 +102,10 @@ Window {
                 syncButton.visible = false;
             }
         }
+
+        onGlobalChannelChanged: {
+            globalChannel_combo.currentIndex = backend.globalChannel
+        }
     }
 
     Image {
@@ -107,7 +114,7 @@ Window {
         y: 0
         width: 1024
         height: 768
-        source: "content/images/background.png"
+        source: "images/background.png"
 
         Rectangle {
             id: rectangle
@@ -124,7 +131,7 @@ Window {
                 y: 48
                 width: 169
                 height: 64
-                source: "content/images/Logo-MD1BP.svg"
+                source: "images/Logo-MD1BP.svg"
             }
 
             Text {
@@ -562,7 +569,7 @@ Window {
                 x: 160
                 y: 620
 
-                source: "content/images/clock.svg"
+                source: "images/clock.svg"
                 visible: false
             }
 
@@ -590,7 +597,7 @@ Window {
             y: 60
             width: 400
             height: 393
-            source: "content/images/back.svg"
+            source: "images/back.svg"
 
             property int dx: 81
             property int dy: 81
@@ -997,7 +1004,7 @@ Window {
         }
 
         ComboBox {
-            id: global_combo
+            id: globalChannel_combo
             visible: true
             x: 244
             y: 638
@@ -1030,7 +1037,9 @@ Window {
                 ListElement{text: "15"}
                 ListElement{text: "16"}
             }
-            onCurrentTextChanged: backend.setGlobalChannel(currentIndex)
+            onCurrentTextChanged:{
+                backend.setGlobalChannel(currentIndex)
+            }
         }
 
         Text {
@@ -1057,7 +1066,10 @@ Window {
                 checked: true
                 text: qsTr("1")
                 font.family: "Arial"
-                onClicked: backend.setPreset(0)
+                onClicked: {
+                    currentPreset = 0
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1069,7 +1081,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("2")
                 font.family: "Arial"
-                onClicked: backend.setPreset(1)
+                onClicked: {
+                    currentPreset = 1
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1081,7 +1096,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("3")
                 font.family: "Arial"
-                onClicked: backend.setPreset(2)
+                onClicked: {
+                    currentPreset = 2
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1093,7 +1111,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("4")
                 font.family: "Arial"
-                onClicked: backend.setPreset(3)
+                onClicked: {
+                    currentPreset = 3
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1105,7 +1126,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("5")
                 font.family: "Arial"
-                onClicked: backend.setPreset(4)
+                onClicked: {
+                    currentPreset = 4
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1117,7 +1141,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("6")
                 font.family: "Arial"
-                onClicked: backend.setPreset(5)
+                onClicked: {
+                    currentPreset = 5
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1129,7 +1156,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("7")
                 font.family: "Arial"
-                onClicked: backend.setPreset(6)
+                onClicked: {
+                    currentPreset = 6
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1141,7 +1171,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("8")
                 font.family: "Arial"
-                onClicked: backend.setPreset(7)
+                onClicked: {
+                    currentPreset = 7
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1153,7 +1186,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("9")
                 font.family: "Arial"
-                onClicked: backend.setPreset(8)
+                onClicked: {
+                    currentPreset = 8
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1165,7 +1201,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("10")
                 font.family: "Arial"
-                onClicked: backend.setPreset(9)
+                onClicked: {
+                    currentPreset = 9
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1177,7 +1216,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("11")
                 font.family: "Arial"
-                onClicked: backend.setPreset(10)
+                onClicked: {
+                    currentPreset = 10
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1189,7 +1231,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("12")
                 font.family: "Arial"
-                onClicked: backend.setPreset(11)
+                onClicked: {
+                    currentPreset = 11
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1201,7 +1246,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("13")
                 font.family: "Arial"
-                onClicked: backend.setPreset(12)
+                onClicked: {
+                    currentPreset = 12
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1213,7 +1261,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("14")
                 font.family: "Arial"
-                onClicked: backend.setPreset(13)
+                onClicked: {
+                    currentPreset = 13
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1225,7 +1276,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("15")
                 font.family: "Arial"
-                onClicked: backend.setPreset(14)
+                onClicked: {
+                    currentPreset = 14
+                    backend.setPreset(currentPreset)
+                }
             }
 
             PresetButton {
@@ -1237,7 +1291,10 @@ Window {
                 autoExclusive: true
                 text: qsTr("16")
                 font.family: "Arial"
-                onClicked: backend.setPreset(15)
+                onClicked: {
+                    currentPreset = 15
+                    backend.setPreset(currentPreset)
+                }
             }
         }
 
@@ -1280,5 +1337,5 @@ Window {
             }
         }
 
-    }    
+    }
 }

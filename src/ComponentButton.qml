@@ -25,9 +25,12 @@ Button {
         height: 81
         source: {
             if(type === 1)
-                componentButton.checked ? "qrc:///content/images/buttonS.svg" : "qrc:///content/images/button.svg"
+                componentButton.checked ? "qrc:/images/buttonS.svg" : "qrc:/images/button.svg"
             else if(type === 2)
-                componentButton.checked ? "qrc:///content/images/knobS.svg" : "qrc:///content/images/knob.svg"
+                componentButton.checked ? "qrc:/images/knobS.svg" : "qrc:/images/knob.svg"
+            else {
+                ""
+            }
         }
     }
 

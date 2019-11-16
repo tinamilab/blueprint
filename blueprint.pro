@@ -1,6 +1,6 @@
 QT += quick
 
-CONFIG += c++11
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -56,39 +56,34 @@ win32: LIBS += -lSetupAPI
 macx: LIBS += -framework CoreFoundation -framework IOkit
 unix: !macx: LIBS += -lusb-1.0
 
-macx {
-        CONFIG(debug, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/mac/debug
-                GENERATED_ADDRESS = $$PWD/generated/mac/debug
-        }
-        CONFIG(release, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/mac/release
-                GENERATED_ADDRESS = $$PWD/generated/mac/release
-        }
+macx{
+    CONFIG(debug, debug|release) {
+        DEST_DIRECTORY = $$PWD/mac/debug
+    }
+    CONFIG(release, debug|release) {
+        DEST_DIRECTORY = $$PWD/mac/release
+    }
 }
-unix: !macx {
-        CONFIG(debug, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/linux/debug
-                GENERATED_ADDRESS = $$PWD/generated/linux/debug
-        }
-        CONFIG(release, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/linux/release
-                GENERATED_ADDRESS = $$PWD/generated/linux/release
-        }
+unix:!mac{
+    CONFIG(debug, debug|release) {
+        DEST_DIRECTORY = $$PWD/linux/debug
+    }
+    CONFIG(release, debug|release) {
+        DEST_DIRECTORY = $$PWD/linux/release
+    }
 }
-win32 {
-        CONFIG(debug, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/win32/debug
-                GENERATED_ADDRESS = $$PWD/generated/win32/debug
-        }
-        CONFIG(release, debug|release) {
-                DESTDIR_ADDRESS = $$PWD/win32/release
-                GENERATED_ADDRESS = $$PWD/generated/win32/release
-        }
+win32{
+    CONFIG(debug, debug|release) {
+        DEST_DIRECTORY = $$PWD/win32/debug
+    }
+    CONFIG(release, debug|release) {
+        DEST_DIRECTORY = $$PWD/win32/release
+    }
 }
 
-DESTDIR = $${DESTDIR_ADDRESS}
-OBJECTS_DIR = $${GENERATED_ADDRESS}/objs
-MOC_DIR = $${GENERATED_ADDRESS}/mocs
-UI_DIR = $${GENERATED_ADDRESS}/uis
-RCC_DIR = $${GENERATED_ADDRESS}/rccs
+MOC_DIR     += $${DEST_DIRECTORY}/generated/mocs
+UI_DIR      += $${DEST_DIRECTORY}/generated/uis
+RCC_DIR     += $${DEST_DIRECTORY}/generated/rccs
+OBJECTS_DIR += $${DEST_DIRECTORY}/generated/objs
+DLLDESTDIR = $${DEST_DIRECTORY}
+DESTDIR    = $${DEST_DIRECTORY}
