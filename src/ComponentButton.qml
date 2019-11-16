@@ -4,14 +4,11 @@ import QtQuick.Controls 2.2
 Button {
     id: componentButton
 
+    autoExclusive: true
+    checkable: true
+
     property string name: ""
     property int type: 0
-    property int row: 0
-    property int column: 0
-    property int index: row * 4 + column
-
-    x: 34 + 81 * column
-    y: 50 + 81 * row
 
     function codeName() {
         if(type === 1)

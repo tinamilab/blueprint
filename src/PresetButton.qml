@@ -4,6 +4,10 @@ import QtQuick.Controls 2.2
 Button{
     id: presetButton
 
+    checkable: true
+    autoExclusive: true
+    font.family: "Arial"
+
     contentItem: Text {
         text: presetButton.text
         font: presetButton.font

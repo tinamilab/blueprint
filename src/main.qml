@@ -19,6 +19,10 @@ ApplicationWindow{
 
     property int currentPreset: 0
 
+    Component.onCompleted: {
+        presetButtons.itemAt(0).checked = true
+    }
+
     BackEnd {
         id: backend
 
@@ -33,7 +37,6 @@ ApplicationWindow{
             case BackEnd.Ready_for_update:
                 deviceStatusLabel.text = "ready for update";
                 break;
-
             case BackEnd.Ok_data:
                 deviceStatusLabel.text = "ok Data";
                 break;
@@ -599,11 +602,6 @@ ApplicationWindow{
             height: 393
             source: "images/back.svg"
 
-            property int dx: 81
-            property int dy: 81
-            property int xo: 34
-            property int yo: 50
-
             property int i: 0
             property int j: 0
             property int component: 0
@@ -611,56 +609,7 @@ ApplicationWindow{
             function selectComponentWithKeys(){
                 back_controler.component = back_controler.i * 4 + back_controler.j;
 
-                switch(back_controler.component){
-                case 0:
-                    a1ComponentB.checked = true;
-                    break;
-                case 1:
-                    a2ComponentB.checked = true;
-                    break;
-                case 2:
-                    a3ComponentB.checked = true;
-                    break;
-                case 3:
-                    a4ComponentB.checked = true;
-                    break;
-                case 4:
-                    b1ComponentB.checked = true;
-                    break;
-                case 5:
-                    b2ComponentB.checked = true;
-                    break;
-                case 6:
-                    b3ComponentB.checked = true;
-                    break;
-                case 7:
-                    b4ComponentB.checked = true;
-                    break;
-                case 8:
-                    c1ComponentB.checked = true;
-                    break;
-                case 9:
-                    c2ComponentB.checked = true;
-                    break;
-                case 10:
-                    c3ComponentB.checked = true;
-                    break;
-                case 11:
-                    c4ComponentB.checked = true;
-                    break;
-                case 12:
-                    d1ComponentB.checked = true;
-                    break;
-                case 13:
-                    d2ComponentB.checked = true;
-                    break;
-                case 14:
-                    d3ComponentB.checked = true;
-                    break;
-                case 15:
-                    d4ComponentB.checked = true;
-                    break;
-                }
+                componentButtons.itemAt(back_controler.component).checked = true
             }
 
             Keys.onUpPressed: {
@@ -699,292 +648,133 @@ ApplicationWindow{
                 selectComponentWithKeys();
             }
 
-            Rectangle{
-                ComponentButton{
-                    id: a1ComponentB
-                    row: 0
-                    column: 0
-                    autoExclusive: true
-                    checkable: true
-                    name: "a1"
-                    type: backend.control0Type
+            Grid {  //  Preset buttons grid
+                id: componentGrid
+                x: 34
+                y: 50
+                columns: 4
+                rows: 4
+                columnSpacing: -14
+                rowSpacing: -9
 
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
+                Repeater {
+                    id: componentButtons
+                    model: 16
 
-                        backend.selectComponent(a1ComponentB.index);
-                    }
-                }
+                    ComponentButton{
+                        name: {
+                            switch(index){
+                            case 0:
+                                "a1";
+                                break;
+                            case 1:
+                                "a2";
+                                break;
+                            case 2:
+                                "a3";
+                                break;
+                            case 3:
+                                "a4";
+                                break;
+                            case 4:
+                                "b1";
+                                break;
+                            case 5:
+                                "b2";
+                                break;
+                            case 6:
+                                "b3";
+                                break;
+                            case 7:
+                                "b4";
+                                break;
+                            case 8:
+                                "c1";
+                                break;
+                            case 9:
+                                "c2";
+                                break;
+                            case 10:
+                                "c3";
+                                break;
+                            case 11:
+                                "c4";
+                                break;
+                            case 12:
+                                "d1";
+                                break;
+                            case 13:
+                                "d2";
+                                break;
+                            case 14:
+                                "d3";
+                                break;
+                            case 15:
+                                "d4";
+                                break;
+                            }
+                        }
 
-                ComponentButton{
-                    id: a2ComponentB
-                    row: 0
-                    column: 1
-                    autoExclusive: true
-                    checkable: true
-                    name: "a2"
-                    type: backend.control1Type
+                        type: {
+                            console.log(index)
+                            switch(index){
+                            case 0:
+                                backend.control0Type
+                                break;
+                            case 1:
+                                backend.control1Type
+                                break;
+                            case 2:
+                                backend.control2Type
+                                break;
+                            case 3:
+                                backend.control3Type
+                                break;
+                            case 4:
+                                backend.control4Type
+                                break;
+                            case 5:
+                                backend.control5Type
+                                break;
+                            case 6:
+                                backend.control6Type
+                                break;
+                            case 7:
+                                backend.control7Type
+                                break;
+                            case 8:
+                                backend.control8Type
+                                break;
+                            case 9:
+                                backend.control9Type
+                                break;
+                            case 10:
+                                backend.control10Type
+                                break;
+                            case 11:
+                                backend.control11Type
+                                break;
+                            case 12:
+                                backend.control12Type
+                                break;
+                            case 13:
+                                backend.control13Type
+                                break;
+                            case 14:
+                                backend.control14Type
+                                break;
+                            case 15:
+                                backend.control15Type
+                                break;
+                            }
+                        }
 
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(a2ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: a3ComponentB
-                    row: 0
-                    column: 2
-                    autoExclusive: true
-                    checkable: true
-                    name: "a3"
-                    type: backend.control2Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(a3ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: a4ComponentB
-                    row: 0
-                    column: 3
-                    autoExclusive: true
-                    checkable: true
-                    name: "a4"
-                    type: backend.control3Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(a4ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: b1ComponentB
-                    row: 1
-                    column: 0
-                    autoExclusive: true
-                    checkable: true
-                    name: "b1"
-                    type: backend.control4Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(b1ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: b2ComponentB
-                    row: 1
-                    column: 1
-                    autoExclusive: true
-                    checkable: true
-                    name: "b2"
-                    type: backend.control5Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(b2ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: b3ComponentB
-                    row: 1
-                    column: 2
-                    autoExclusive: true
-                    checkable: true
-                    name: "b3"
-                    type: backend.control6Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(b3ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: b4ComponentB
-                    row: 1
-                    column: 3
-                    autoExclusive: true
-                    checkable: true
-                    name: "b4"
-                    type: backend.control7Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(b4ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: c1ComponentB
-                    row: 2
-                    column: 0
-                    autoExclusive: true
-                    checkable: true
-                    name: "c1"
-                    type: backend.control8Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(c1ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: c2ComponentB
-                    row: 2
-                    column: 1
-                    autoExclusive: true
-                    checkable: true
-                    name: "c2"
-                    type: backend.control9Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(c2ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: c3ComponentB
-                    row: 2
-                    column: 2
-                    autoExclusive: true
-                    checkable: true
-                    name: "c3"
-                    type: backend.control10Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(c3ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: c4ComponentB
-                    row: 2
-                    column: 3
-                    autoExclusive: true
-                    checkable: true
-                    name: "c4"
-                    type: backend.control11Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(c4ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: d1ComponentB
-                    row: 3
-                    column: 0
-                    autoExclusive: true
-                    checkable: true
-                    name: "d1"
-                    type: backend.control12Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(d1ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: d2ComponentB
-                    row: 3
-                    column: 1
-                    autoExclusive: true
-                    checkable: true
-                    name: "d2"
-                    type: backend.control13Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(d2ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: d3ComponentB
-                    row: 3
-                    column: 2
-                    autoExclusive: true
-                    checkable: true
-                    name: "d3"
-                    type: backend.control14Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(d3ComponentB.index);
-                    }
-                }
-
-                ComponentButton{
-                    id: d4ComponentB
-                    row: 3
-                    column: 3
-                    autoExclusive: true
-                    checkable: true
-                    name: "d4"
-                    type: backend.control15Type
-
-                    onCheckedChanged: {
-                        comp_name.text = codeName();
-                        back_controler.i = row;
-                        back_controler.j = column;
-
-                        backend.selectComponent(d4ComponentB.index);
+                        onCheckedChanged: {
+                            comp_name.text = codeName()
+                            back_controler.i = index / 4
+                            back_controler.j = index % 4
+                            backend.selectComponent(index)
+                        }
                     }
                 }
             }
@@ -994,7 +784,7 @@ ApplicationWindow{
             id: preset_txt
             visible: true
             x: 107
-            y: 486
+            y: 506
             color: "#e8ac5b"
             text: qsTr("preset")
             horizontalAlignment: Text.AlignRight
@@ -1007,7 +797,7 @@ ApplicationWindow{
             id: globalChannel_combo
             visible: true
             x: 244
-            y: 638
+            y: 658
             wheelEnabled: true
             focusPolicy: Qt.StrongFocus
             enabled: true
@@ -1046,7 +836,7 @@ ApplicationWindow{
             id: global_txt
             visible: true
             x: 104
-            y: 644
+            y: 664
             color: "#e8ac5b"
             text: qsTr("global channel")
             horizontalAlignment: Text.AlignRight
@@ -1054,246 +844,25 @@ ApplicationWindow{
             font.pixelSize: 18
             font.family: "Arial"
         }
-        Rectangle {
-            id:presets
-            PresetButton {
-                id: p1
-                visible: true
-                x: 107
-                y: 517
-                checkable: true
-                autoExclusive: true
-                checked: true
-                text: qsTr("1")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 0
-                    backend.setPreset(currentPreset)
-                }
-            }
 
-            PresetButton {
-                id: p2
-                visible: true
-                x: 155
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("2")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 1
-                    backend.setPreset(currentPreset)
-                }
-            }
+        Grid {  //  Preset buttons grid
+            x: 107
+            y: 537
+            columns: 8
+            rows: 2
+            columnSpacing: 15
+            rowSpacing: 10
 
-            PresetButton {
-                id: p3
-                visible: true
-                x: 203
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("3")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 2
-                    backend.setPreset(currentPreset)
-                }
-            }
+            Repeater {
+                id: presetButtons
+                model: 16
 
-            PresetButton {
-                id: p4
-                visible: true
-                x: 251
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("4")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 3
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p5
-                visible: true
-                x: 299
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("5")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 4
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p6
-                visible: true
-                x: 347
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("6")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 5
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p7
-                visible: true
-                x: 395
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("7")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 6
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p8
-                visible: true
-                x: 443
-                y: 517
-                checkable: true
-                autoExclusive: true
-                text: qsTr("8")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 7
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p9
-                visible: true
-                x: 107
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("9")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 8
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p10
-                visible: true
-                x: 155
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("10")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 9
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p11
-                visible: true
-                x: 203
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("11")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 10
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p12
-                visible: true
-                x: 251
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("12")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 11
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p13
-                visible: true
-                x: 299
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("13")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 12
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p14
-                visible: true
-                x: 347
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("14")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 13
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p15
-                visible: true
-                x: 395
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("15")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 14
-                    backend.setPreset(currentPreset)
-                }
-            }
-
-            PresetButton {
-                id: p16
-                visible: true
-                x: 443
-                y: 570
-                checkable: true
-                autoExclusive: true
-                text: qsTr("16")
-                font.family: "Arial"
-                onClicked: {
-                    currentPreset = 15
-                    backend.setPreset(currentPreset)
+                PresetButton {
+                    text: index + 1
+                    onClicked: {
+                        currentPreset = index
+                        backend.setPreset(currentPreset)
+                    }
                 }
             }
         }
