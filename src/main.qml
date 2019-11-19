@@ -148,249 +148,262 @@ ApplicationWindow{
                 font.family: "Arial"
             }
 
-            Text {
-                id: mode_txt
-                x: 123
-                y: 237
-                color: "#e8ac5b"
-                text: qsTr("mode")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
-            }
-
-            ComboBox {
-                id: componentMode_combo
-                x: 186
-                y: 232
-                wheelEnabled: false
-                focusPolicy: Qt.StrongFocus
-                enabled: true
-                font.family: "HelveticaNeueLTStd-Bd"
-                font.pixelSize: 14
-                textRole: "key"
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "#d8d9d1"
-                }
-                model: ListModel{
-                    ListElement{ key: "Voice Note"; value: 0 }
-                    ListElement{ key: "CC"; value: 2 }
+            Rectangle{
+                Text {
+                    id: mode_txt
+                    x: 123
+                    y: 237
+                    color: "#e8ac5b"
+                    text: qsTr("mode")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
                 }
 
-                onCurrentTextChanged: {
-                    if(currentIndex === 0){
-                        backend.setComponentMode(0)
-                    } else if (currentIndex === 1){
-                        backend.setComponentMode(2)
+                ComboBox {
+                    id: componentMode_combo
+                    x: 186
+                    y: 232
+                    wheelEnabled: false
+                    focusPolicy: Qt.StrongFocus
+                    enabled: true
+                    font.family: "HelveticaNeueLTStd-Bd"
+                    font.pixelSize: 14
+                    textRole: "key"
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "#d8d9d1"
+                    }
+                    model: ListModel{
+                        ListElement{ key: "Voice Note"; value: 0 }
+                        ListElement{ key: "CC"; value: 2 }
+                    }
+
+                    onCurrentTextChanged: {
+                        if(currentIndex === 0){
+                            backend.setComponentMode(0)
+                        } else if (currentIndex === 1){
+                            backend.setComponentMode(2)
+                        }
                     }
                 }
             }
 
-            Text {
-                id: cc_txt
-                x: 80
-                y: 287
-                color: "#e8ac5b"
-                text: qsTr("cc number")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
-            }
-
-            ComboBox {
-                id: componentData_combo
-                x: 186
-                y: 282
-                wheelEnabled: false
-                focusPolicy: Qt.StrongFocus
-                enabled: true
-                font.family: "HelveticaNeueLTStd-Bd"
-                font.pixelSize: 14
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "#d8d9d1"
+            Rectangle{
+                Text {
+                    id: cc_txt
+                    x: 80
+                    y: 287
+                    color: "#e8ac5b"
+                    text: qsTr("cc number")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
                 }
 
-                model: 128
-                validator: IntValidator {bottom: 0; top: 127;}
+                ComboBox {
+                    id: componentData_combo
+                    x: 186
+                    y: 282
+                    wheelEnabled: false
+                    focusPolicy: Qt.StrongFocus
+                    enabled: true
+                    font.family: "HelveticaNeueLTStd-Bd"
+                    font.pixelSize: 14
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "#d8d9d1"
+                    }
 
-                onCurrentIndexChanged: {
-                    backend.setComponentData(currentIndex)
-                }
-            }
+                    model: 128
+                    validator: IntValidator {bottom: 0; top: 127;}
 
-            Text {
-                id: channel_txt
-                x: 104
-                y: 337
-                color: "#e8ac5b"
-                text: qsTr("channel")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
-            }
-
-            ComboBox {
-                id: componentChannel_combo
-                x: 186
-                y: 332
-                wheelEnabled: false
-                focusPolicy: Qt.StrongFocus
-                enabled: true
-                font.family: "HelveticaNeueLTStd-Bd"
-                font.pixelSize: 14
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "#d8d9d1"
-                }
-                model: ListModel{
-                    ListElement{text: "1"}
-                    ListElement{text: "2"}
-                    ListElement{text: "3"}
-                    ListElement{text: "4"}
-                    ListElement{text: "5"}
-                    ListElement{text: "6"}
-                    ListElement{text: "7"}
-                    ListElement{text: "8"}
-                    ListElement{text: "9"}
-                    ListElement{text: "10"}
-                    ListElement{text: "11"}
-                    ListElement{text: "12"}
-                    ListElement{text: "13"}
-                    ListElement{text: "14"}
-                    ListElement{text: "15"}
-                    ListElement{text: "16"}
-                    ListElement{text: "Global"}
-                }
-                onCurrentTextChanged: {
-                    backend.setComponentChannel(currentIndex)
+                    onCurrentIndexChanged: {
+                        backend.setComponentData(currentIndex)
+                    }
                 }
             }
 
-            Text {
-                id: minval_txt
-                x: 104
-                y: 387
-                width: 68
-                color: "#e8ac5b"
-                text: qsTr("min value")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
-            }
-
-            TextField {
-                id: componentMinValue_textInput
-                x: 186
-                y: 385
-                color: "#d9d1d1"
-                text: backend.componentMinValue //text: rango.first.value
-                inputMask: qsTr("")
-                topPadding: 10
-                bottomPadding: 9
-                leftPadding: 12
-                rightPadding: 30
-                font.bold: true
-                selectionColor: "#d1d5d9"
-                font.pixelSize: 14
-                font.family: "Arial"
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "transparent"
-                    border.color: "#d8d9d1"
-                    border.width: 0.5
+            Rectangle{
+                Text {
+                    id: channel_txt
+                    x: 104
+                    y: 337
+                    color: "#e8ac5b"
+                    text: qsTr("channel")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
                 }
 
-                onTextChanged:{
-                    backend.setComponentMinValue(text)
-                    rango.first.value = text
-                }
-            }
-
-            Text {
-                id: maxval_txt
-                x: 104
-                y: 437
-                width: 68
-                color: "#e8ac5b"
-                text: qsTr("max value")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
-            }
-
-            TextField {
-                id: componentMaxValue_textInput
-                x: 186
-                y: 435
-                color: "#d9d1d1"
-                text: backend.componentMaxValue//text: rango.second.value
-                inputMask: qsTr("")
-                topPadding: 6
-                font.bold: true
-                selectionColor: "#d1d5d9"
-                font.pixelSize: 14
-                font.family: "Arial"
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "transparent"
-                    border.color: "#d8d9d1"
-                    border.width: 0.5
-                }
-
-                onTextChanged:{
-                    backend.setComponentMaxValue(text)
-                    rango.second.value = text
+                ComboBox {
+                    id: componentChannel_combo
+                    x: 186
+                    y: 332
+                    wheelEnabled: false
+                    focusPolicy: Qt.StrongFocus
+                    enabled: true
+                    font.family: "HelveticaNeueLTStd-Bd"
+                    font.pixelSize: 14
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "#d8d9d1"
+                    }
+                    model: ListModel{
+                        ListElement{text: "1"}
+                        ListElement{text: "2"}
+                        ListElement{text: "3"}
+                        ListElement{text: "4"}
+                        ListElement{text: "5"}
+                        ListElement{text: "6"}
+                        ListElement{text: "7"}
+                        ListElement{text: "8"}
+                        ListElement{text: "9"}
+                        ListElement{text: "10"}
+                        ListElement{text: "11"}
+                        ListElement{text: "12"}
+                        ListElement{text: "13"}
+                        ListElement{text: "14"}
+                        ListElement{text: "15"}
+                        ListElement{text: "16"}
+                        ListElement{text: "Global"}
+                    }
+                    onCurrentTextChanged: {
+                        backend.setComponentChannel(currentIndex)
+                    }
                 }
             }
 
-            Text {
-                id: button_behaviour_txt
-                x: 104
-                y: 544
-                width: 68
-                color: "#e8ac5b"
-                text: qsTr("button behaviour")
-                horizontalAlignment: Text.AlignRight
-                font.bold: true
-                font.pixelSize: 18
-                font.family: "Arial"
+            Rectangle{
+                Text {
+                    id: minval_txt
+                    x: 104
+                    y: 387
+                    width: 68
+                    color: "#e8ac5b"
+                    text: qsTr("min value")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
+                }
+
+                TextField {
+                    id: componentMinValue_textInput
+                    x: 186
+                    y: 385
+                    color: "#d9d1d1"
+                    text: backend.componentMinValue //text: rango.first.value
+                    inputMask: qsTr("")
+                    topPadding: 10
+                    bottomPadding: 9
+                    leftPadding: 12
+                    rightPadding: 30
+                    font.bold: true
+                    selectionColor: "#d1d5d9"
+                    font.pixelSize: 14
+                    font.family: "Arial"
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "transparent"
+                        border.color: "#d8d9d1"
+                        border.width: 0.5
+                    }
+
+                    onTextChanged:{
+                        backend.setComponentMinValue(text)
+                        rango.first.value = text
+                    }
+                }
             }
 
-            ComboBox {
-                id: componentButtonBehaviour_combo
-                x: 186
-                y: 542
-                wheelEnabled: false
-                focusPolicy: Qt.StrongFocus
-                enabled: true
-                font.family: "HelveticaNeueLTStd-Bd"
-                font.pixelSize: 14
-                textRole: "key"
-                background: Rectangle {
-                    implicitWidth: 200
-                    implicitHeight: 30
-                    color: "#d8d9d1"
+            Rectangle{
+                Text {
+                    id: maxval_txt
+                    x: 104
+                    y: 437
+                    width: 68
+                    color: "#e8ac5b"
+                    text: qsTr("max value")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
                 }
-                model: ListModel{
-                    ListElement{ key: "momentary"; value: 1 }
-                    ListElement{ key: "toggle"; value: 2 }
+
+                TextField {
+                    id: componentMaxValue_textInput
+                    x: 186
+                    y: 435
+                    color: "#d9d1d1"
+                    text: backend.componentMaxValue//text: rango.second.value
+                    inputMask: qsTr("")
+                    topPadding: 6
+                    font.bold: true
+                    selectionColor: "#d1d5d9"
+                    font.pixelSize: 14
+                    font.family: "Arial"
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "transparent"
+                        border.color: "#d8d9d1"
+                        border.width: 0.5
+                    }
+
+                    onTextChanged:{
+                        backend.setComponentMaxValue(text)
+                        rango.second.value = text
+                    }
                 }
-                onCurrentTextChanged: {
-                    backend.setComponentButtonBehaviour(currentIndex + 1)
+            }
+
+            Rectangle{
+                id: button_behaviour_control
+                Text {
+                    id: button_behaviour_txt
+                    x: 104
+                    y: 544
+                    width: 68
+                    color: "#e8ac5b"
+                    text: qsTr("button behaviour")
+                    horizontalAlignment: Text.AlignRight
+                    font.bold: true
+                    font.pixelSize: 18
+                    font.family: "Arial"
+                }
+
+                ComboBox {
+                    id: componentButtonBehaviour_combo
+                    x: 186
+                    y: 542
+                    wheelEnabled: false
+                    focusPolicy: Qt.StrongFocus
+                    enabled: true
+                    font.family: "HelveticaNeueLTStd-Bd"
+                    font.pixelSize: 14
+                    textRole: "key"
+                    background: Rectangle {
+                        implicitWidth: 200
+                        implicitHeight: 30
+                        color: "#d8d9d1"
+                    }
+                    model: ListModel{
+                        ListElement{ key: "momentary"; value: 1 }
+                        ListElement{ key: "toggle"; value: 2 }
+                    }
+                    onCurrentTextChanged: {
+                        backend.setComponentButtonBehaviour(currentIndex + 1)
+                    }
                 }
             }
 
@@ -628,101 +641,115 @@ ApplicationWindow{
                             back_controler.i = index / 4
                             back_controler.j = index % 4
                             backend.selectComponent(index)
+
+                            switch(type){
+                            case BackEnd.Button:
+                                button_behaviour_control.visible = true;
+                                break;
+                            case BackEnd.Pot:
+                                button_behaviour_control.visible = false;
+                                break;
+                            default:
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
 
-        Text {
-            id: preset_txt
-            visible: true
-            x: 107
-            y: 506
-            color: "#e8ac5b"
-            text: qsTr("preset")
-            horizontalAlignment: Text.AlignRight
-            font.bold: true
-            font.pixelSize: 18
-            font.family: "Arial"
-        }
-
-        ComboBox {
-            id: globalChannel_combo
-            visible: true
-            x: 244
-            y: 658
-            wheelEnabled: true
-            focusPolicy: Qt.StrongFocus
-            enabled: true
-            font.family: "HelveticaNeueLTStd-Bd"
-            font.pixelSize: 14
-
-            background: Rectangle {
-                implicitWidth: 200
-                implicitHeight: 30
-                color: "#d8d9d1"
+        Rectangle{
+            Text {
+                id: preset_txt
+                visible: true
+                x: 107
+                y: 506
+                color: "#e8ac5b"
+                text: qsTr("preset")
+                horizontalAlignment: Text.AlignRight
+                font.bold: true
+                font.pixelSize: 18
+                font.family: "Arial"
             }
-            model: ListModel{
-                ListElement{text: "1"}
-                ListElement{text: "2"}
-                ListElement{text: "3"}
-                ListElement{text: "4"}
-                ListElement{text: "5"}
-                ListElement{text: "6"}
-                ListElement{text: "7"}
-                ListElement{text: "8"}
-                ListElement{text: "9"}
-                ListElement{text: "10"}
-                ListElement{text: "11"}
-                ListElement{text: "12"}
-                ListElement{text: "13"}
-                ListElement{text: "14"}
-                ListElement{text: "15"}
-                ListElement{text: "16"}
-            }
-            onCurrentTextChanged:{
-                backend.setGlobalChannel(currentIndex)
-            }
-        }
 
-        Text {
-            id: global_txt
-            visible: true
-            x: 104
-            y: 664
-            color: "#e8ac5b"
-            text: qsTr("global channel")
-            horizontalAlignment: Text.AlignRight
-            font.bold: true
-            font.pixelSize: 18
-            font.family: "Arial"
-        }
+            Grid {  //  Preset buttons grid
+                x: 107
+                y: 537
+                columns: 8
+                rows: 2
+                columnSpacing: 15
+                rowSpacing: 10
 
-        Grid {  //  Preset buttons grid
-            x: 107
-            y: 537
-            columns: 8
-            rows: 2
-            columnSpacing: 15
-            rowSpacing: 10
+                Repeater {
+                    id: presetButtons
+                    model: 16
 
-            Repeater {
-                id: presetButtons
-                model: 16
-
-                PresetButton {
-                    text: index + 1
-                    onClicked: {
-                        currentPreset = index
-                        backend.setPreset(currentPreset)
+                    PresetButton {
+                        text: index + 1
+                        onClicked: {
+                            currentPreset = index
+                            backend.setPreset(currentPreset)
+                        }
                     }
                 }
             }
         }
 
+        Rectangle{
+            Text {
+                id: global_txt
+                visible: true
+                x: 104
+                y: 664
+                color: "#e8ac5b"
+                text: qsTr("global channel")
+                horizontalAlignment: Text.AlignRight
+                font.bold: true
+                font.pixelSize: 18
+                font.family: "Arial"
+            }
+
+            ComboBox {
+                id: globalChannel_combo
+                visible: true
+                x: 244
+                y: 658
+                wheelEnabled: true
+                focusPolicy: Qt.StrongFocus
+                enabled: true
+                font.family: "HelveticaNeueLTStd-Bd"
+                font.pixelSize: 14
+
+                background: Rectangle {
+                    implicitWidth: 200
+                    implicitHeight: 30
+                    color: "#d8d9d1"
+                }
+                model: ListModel{
+                    ListElement{text: "1"}
+                    ListElement{text: "2"}
+                    ListElement{text: "3"}
+                    ListElement{text: "4"}
+                    ListElement{text: "5"}
+                    ListElement{text: "6"}
+                    ListElement{text: "7"}
+                    ListElement{text: "8"}
+                    ListElement{text: "9"}
+                    ListElement{text: "10"}
+                    ListElement{text: "11"}
+                    ListElement{text: "12"}
+                    ListElement{text: "13"}
+                    ListElement{text: "14"}
+                    ListElement{text: "15"}
+                    ListElement{text: "16"}
+                }
+                onCurrentTextChanged:{
+                    backend.setGlobalChannel(currentIndex)
+                }
+            }
+        }
+
         Rectangle {
-            id: rectangle1
             x: 0
             y: 728
             width: 1024
