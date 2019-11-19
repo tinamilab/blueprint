@@ -16,7 +16,7 @@
 #define BLUEPRINT_PRESET_DATA_SIZE 256
 #define BLUEPRINT_CONTROL_DATA_SIZE 16
 #define BLUEPRINT_CONTROL_TYPE_INDEX 16
-#define BLUEPRINT_PRESET_GLOBAL_CHANNEL_INDEX 32
+#define BLUEPRINT_PRESET_GLOBAL_CHANNEL_INDEX 16
 
 class BackEnd : public QObject
 {
@@ -129,12 +129,13 @@ public:
         union ComponentConfig{
                 unsigned char config[16];
                 struct {
-                        uint8_t mode; //  Especifica tipo de control, puede ser pulsante, switch, pot, slider
-                        uint8_t channel; //
-                        uint8_t data; //
-                        uint8_t min; //
-                        uint8_t max; //
-                        uint8_t presetValue; //
+                        uint8_t config;
+                        uint8_t mode;
+                        uint8_t channel;
+                        uint8_t data;
+                        uint8_t min;
+                        uint8_t max;
+                        uint8_t presetValue;
                         uint8_t reserved1;
                         uint8_t reserved2;
                         uint8_t reserved3;
@@ -144,7 +145,6 @@ public:
                         uint8_t reserved7;
                         uint8_t reserved8;
                         uint8_t reserved9;
-                        uint8_t reserved10;
                 } bytes;
         };
 

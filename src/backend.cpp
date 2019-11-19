@@ -593,21 +593,10 @@ void BackEnd::setComponentMaxValue(const unsigned char &maxValue){
 }
 
 void BackEnd::setComponentButtonBehaviour(const ComponentButtonBehaviour &controlButtonBehaviour){
-    int index = BLUEPRINT_CONTROL_DATA_SIZE + m_component;
-
     if (controlButtonBehaviour == m_componentButtonBehaviour)
         return;
 
-    switch (controlButtonBehaviour) {
-    case None:
-        break;
-    case Momentary:
-        layout[index] = Momentary;
-        break;
-    case Toggle:
-        layout[index] = Toggle;
-        break;
-    }
+    configuration.preset[m_preset].component[m_component].bytes.config = static_cast<uint8_t>(controlButtonBehaviour);
 
     m_componentButtonBehaviour = controlButtonBehaviour;
     emit componentButtonBehaviourChanged();
@@ -619,7 +608,7 @@ void BackEnd::setComponentButtonBehaviour(const ComponentButtonBehaviour &contro
  * \param component
  */
 void BackEnd::selectComponent(const unsigned char &component){
-    unsigned char type;
+    unsigned char config;
     unsigned char mode;
     unsigned char channel;
     unsigned char data;
@@ -630,20 +619,20 @@ void BackEnd::selectComponent(const unsigned char &component){
 
     qDebug()<< "Selecting component" << component;
 
-    type = layout[BLUEPRINT_CONTROL_TYPE_INDEX + m_component];
+    config = configuration.preset[m_preset].component[m_component].bytes.config;
     mode = configuration.preset[m_preset].component[m_component].bytes.mode;
     channel = configuration.preset[m_preset].component[m_component].bytes.channel;
     data = configuration.preset[m_preset].component[m_component].bytes.data;
     minValue = configuration.preset[m_preset].component[m_component].bytes.min;
     maxValue = configuration.preset[m_preset].component[m_component].bytes.max;
 
+    setComponentButtonBehaviour(static_cast<ComponentButtonBehaviour>(config));
+    setComponentMode(static_cast<ComponentMode>(mode));
     setComponentChannel(channel);
     setComponentData(data);
     setComponentMinValue(minValue);
     setComponentMaxValue(maxValue);
 
-    setComponentMode(static_cast<ComponentMode>(mode));
-    setComponentButtonBehaviour(static_cast<ComponentButtonBehaviour>(type));
 
     emit componentChanged();
 
