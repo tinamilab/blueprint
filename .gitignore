@@ -42,3 +42,8 @@ target_wrapper.*
 
 # QtCreator CMake
 CMakeLists.txt.user*
+
+# GGG
+.DS_Store
+mac
+
