@@ -81,10 +81,10 @@ void BackEnd::timer_timeout(){
         setLayout();
         break;
     case Component:
+        setDeviceStatus(Working);
         setPreset(0);
         emit presetChanged();
         readPreset(0);
-        setDeviceStatus(Working);
         break;
     case Working:
         senseValue();
@@ -478,7 +478,7 @@ void BackEnd::setSynchronizing(bool &sync){
  * \param preset
  */
 void BackEnd::setPreset(const unsigned char &preset){
-    if (preset == m_preset)
+    if (preset == m_preset or m_deviceStatus != Working)
         return;
     m_preset = preset;
     m_globalChannel = layout[BLUEPRINT_PRESET_GLOBAL_CHANNEL_INDEX + preset];
@@ -522,7 +522,7 @@ void BackEnd::setComponentMode(const ComponentMode &deviceMode){
 
     qDebug() << index << m_preset << m_component << deviceMode;
 
-    if (deviceMode == m_componentMode)
+    if (deviceMode == m_componentMode or m_deviceStatus != Working)
         return;
 
     configuration.preset[m_preset].component[m_component].bytes.mode = static_cast<unsigned char>(deviceMode);
@@ -535,7 +535,7 @@ void BackEnd::setComponentMode(const ComponentMode &deviceMode){
 
 void BackEnd::setComponentChannel(const unsigned char &controlChannel){
 
-    if(controlChannel == m_componentChannel)
+    if(controlChannel == m_componentChannel or m_deviceStatus != Working)
         return;
     if (controlChannel >= 16){
         configuration.preset[m_preset].component[m_component].bytes.channel = 0xFF;
@@ -550,7 +550,7 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel){
 }
 
 void BackEnd::setGlobalChannel(const unsigned char &globalChannel){
-    if(globalChannel == m_globalChannel)
+    if(globalChannel == m_globalChannel or m_deviceStatus != Working)
         return;
     qDebug() << "Global channel:" << globalChannel << "Preset:" << m_preset;
     m_globalChannel = globalChannel;
@@ -560,7 +560,7 @@ void BackEnd::setGlobalChannel(const unsigned char &globalChannel){
 }
 
 void BackEnd::setComponentData(const unsigned char &controlData){
-    if(controlData == m_componentData)
+    if(controlData == m_componentData or m_deviceStatus != Working)
         return;
 
     configuration.preset[m_preset].component[m_component].bytes.data = controlData;
@@ -571,7 +571,7 @@ void BackEnd::setComponentData(const unsigned char &controlData){
 }
 
 void BackEnd::setComponentMinValue(const unsigned char &minValue){
-    if (minValue == m_componentMinValue)
+    if (minValue == m_componentMinValue or m_deviceStatus != Working)
         return;
 
     configuration.preset[m_preset].component[m_component].bytes.min = minValue;
@@ -582,7 +582,7 @@ void BackEnd::setComponentMinValue(const unsigned char &minValue){
 }
 
 void BackEnd::setComponentMaxValue(const unsigned char &maxValue){
-    if (maxValue == m_componentMaxValue)
+    if (maxValue == m_componentMaxValue or m_deviceStatus != Working)
         return;
 
     configuration.preset[m_preset].component[m_component].bytes.max = maxValue;
@@ -593,7 +593,7 @@ void BackEnd::setComponentMaxValue(const unsigned char &maxValue){
 }
 
 void BackEnd::setComponentButtonBehaviour(const ComponentButtonBehaviour &controlButtonBehaviour){
-    if (controlButtonBehaviour == m_componentButtonBehaviour)
+    if (controlButtonBehaviour == m_componentButtonBehaviour or m_deviceStatus != Working)
         return;
 
     configuration.preset[m_preset].component[m_component].bytes.config = static_cast<uint8_t>(controlButtonBehaviour);
@@ -721,6 +721,8 @@ void BackEnd::WaitFinishPreset(const unsigned char &preset){
  * \brief BackEnd::syncHost2Device
  */
 void BackEnd::syncHost2Device(){
+    if(m_deviceStatus != Working)
+        return;
     bool temp_variable = true;
     setSynchronizing(temp_variable);
     this->timerLoop->stop();

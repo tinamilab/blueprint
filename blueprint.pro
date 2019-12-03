@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/backend.cpp \
+    src/control_device.cpp \
     src/mainwindow.cpp \
     src/control_midi.cpp \
     src/tinamicomm.cpp
@@ -32,7 +33,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    3rdparty/hidapi/hidapi.h \
     src/backend.h \
+    src/control_device.h \
     src/defs.h \
     src/control_midi.h \
     src/tinamicomm.h
@@ -87,3 +90,7 @@ RCC_DIR     += $${DEST_DIRECTORY}/generated/rccs
 OBJECTS_DIR += $${DEST_DIRECTORY}/generated/objs
 DLLDESTDIR = $${DEST_DIRECTORY}
 DESTDIR    = $${DEST_DIRECTORY}
+
+DISTFILES += \
+    3rdparty/hidapi/gnu_linux/libhidapi-libusb.a \
+    3rdparty/hidapi/win32/libhidapi.a
