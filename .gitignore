@@ -45,5 +45,6 @@ CMakeLists.txt.user*
 
 # GGG
 .DS_Store
+win32
 mac
 
