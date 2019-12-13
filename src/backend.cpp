@@ -8,6 +8,8 @@
 #include <QObject>
 #include <QDebug>
 #include <QQuickWindow>
+#include <QByteArray>
+#include <QVariant>
 
 #include "control_midi.h"
 #include "backend.h"
@@ -127,9 +129,6 @@ void BackEnd::timerSync_timeout(){
         break;
     case SendReqPreset_Sync:
         SendReqPresetSync();
-        break;
-    case WaitOK1_Sync:
-        WaitOK1Sync();
         break;
     case SendPreset_Sync:
         SendPresetSync();
@@ -299,23 +298,13 @@ void BackEnd::setLayout(){
 
     qDebug() << "Setting Layout";
 
-    setControl0Type(layout[0]);
-    setControl1Type(layout[1]);
-    setControl2Type(layout[2]);
-    setControl3Type(layout[3]);
-    setControl4Type(layout[4]);
-    setControl5Type(layout[5]);
-    setControl6Type(layout[6]);
-    setControl7Type(layout[7]);
-    setControl8Type(layout[8]);
-    setControl9Type(layout[9]);
-    setControl10Type(layout[10]);
-    setControl11Type(layout[11]);
-    setControl12Type(layout[12]);
-    setControl13Type(layout[13]);
-    setControl14Type(layout[14]);
-    setControl15Type(layout[15]);
+    for(int i = 0;i<=15;i++)
+    {
+        m_controlType[i] = layout[i];
+        qDebug() << m_controlType[i];
+    }
 
+    emit controlTypeChanged();
     qDebug() << "Done\n";
     setDeviceStatus(Component);
     this->timerLoop->start(timerLoopInterval);
@@ -326,136 +315,11 @@ void BackEnd::setLayout(){
  * \brief BackEnd::setControl0Type
  * \param controlType
  */
-void BackEnd::setControl0Type(const unsigned char &controlType){
-    if (controlType == m_controlType[0])
-        return;
-    m_controlType[0] = controlType;
-    emit control0TypeChanged();
-    return;
-}
-
-void BackEnd::setControl1Type(const unsigned char &controlType){
-    if (controlType == m_controlType[1])
-        return;
-    m_controlType[1] = controlType;
-    emit control1TypeChanged();
-    return;
-}
-
-void BackEnd::setControl2Type(const unsigned char &controlType){
-    if (controlType == m_controlType[2])
-        return;
-    m_controlType[2] = controlType;
-    emit control2TypeChanged();
-    return;
-}
-
-void BackEnd::setControl3Type(const unsigned char &controlType){
-    if (controlType == m_controlType[3])
-        return;
-    m_controlType[3] = controlType;
-    emit control3TypeChanged();
-    return;
-}
-
-void BackEnd::setControl4Type(const unsigned char &controlType){
-    if (controlType == m_controlType[4])
-        return;
-    m_controlType[4] = controlType;
-    emit control4TypeChanged();
-    return;
-}
-
-void BackEnd::setControl5Type(const unsigned char &controlType){
-    if (controlType == m_controlType[5])
-        return;
-    m_controlType[5] = controlType;
-    emit control5TypeChanged();
-    return;
-}
-
-void BackEnd::setControl6Type(const unsigned char &controlType){
-    if (controlType == m_controlType[6])
-        return;
-    m_controlType[6] = controlType;
-    emit control6TypeChanged();
-    return;
-}
-
-void BackEnd::setControl7Type(const unsigned char &controlType){
-    if (controlType == m_controlType[7])
-        return;
-    m_controlType[7] = controlType;
-    emit control7TypeChanged();
-    return;
-}
-
-void BackEnd::setControl8Type(const unsigned char &controlType){
-    if (controlType == m_controlType[8])
-        return;
-    m_controlType[8] = controlType;
-    emit control8TypeChanged();
-    return;
-}
-
-void BackEnd::setControl9Type(const unsigned char &controlType){
-    if (controlType == m_controlType[9])
-        return;
-    m_controlType[9] = controlType;
-    emit control9TypeChanged();
-    return;
-}
-
-
-void BackEnd::setControl10Type(const unsigned char &controlType){
-    if (controlType == m_controlType[10])
-        return;
-    m_controlType[10] = controlType;
-    emit control10TypeChanged();
-    return;
-}
-
-
-void BackEnd::setControl11Type(const unsigned char &controlType){
-    if (controlType == m_controlType[11])
-        return;
-    m_controlType[11] = controlType;
-    emit control11TypeChanged();
-    return;
-}
-
-
-void BackEnd::setControl12Type(const unsigned char &controlType){
-    if (controlType == m_controlType[12])
-        return;
-    m_controlType[12] = controlType;
-    emit control12TypeChanged();
-    return;
-}
-
-
-void BackEnd::setControl13Type(const unsigned char &controlType){
-    if (controlType == m_controlType[13])
-        return;
-    m_controlType[13] = controlType;
-    emit control13TypeChanged();
-    return;
-}
-
-
-void BackEnd::setControl14Type(const unsigned char &controlType){
-    if (controlType == m_controlType[14])
-        return;
-    m_controlType[14] = controlType;
-    emit control14TypeChanged();
-    return;
-}
-
-void BackEnd::setControl15Type(const unsigned char &controlType){
-    if (controlType == m_controlType[15])
-        return;
-    m_controlType[15] = controlType;
-    emit control15TypeChanged();
+void BackEnd::SetControlType(QList<QVariant> &controlType)
+{
+    for(int i = 0; i<=m_controlType.size();i++){
+        m_controlType[i] = controlType[i];
+    }
     return;
 }
 
@@ -499,22 +363,7 @@ void BackEnd::setPreset(const unsigned char &preset){
     selectComponent(0);
     emit presetChanged();
     emit globalChannelChanged();
-    emit control0TypeChanged();
-    emit control1TypeChanged();
-    emit control2TypeChanged();
-    emit control3TypeChanged();
-    emit control4TypeChanged();
-    emit control5TypeChanged();
-    emit control6TypeChanged();
-    emit control7TypeChanged();
-    emit control8TypeChanged();
-    emit control9TypeChanged();
-    emit control10TypeChanged();
-    emit control11TypeChanged();
-    emit control12TypeChanged();
-    emit control13TypeChanged();
-    emit control14TypeChanged();
-    emit control15TypeChanged();
+    emit controlTypeChanged();
 }
 
 void BackEnd::setComponentMode(const ComponentMode &deviceMode){
@@ -831,25 +680,25 @@ void BackEnd::SendReqPresetSync(){
     return;
 }
 
-void BackEnd::WaitOK1Sync(){
+//void BackEnd::WaitOK1Sync(){
 
-    unsigned char data_in[BLUEPRINT_USB_HID_PACKET_SIZE]; //data to read
-    memset(data_in,0,BLUEPRINT_USB_HID_PACKET_SIZE);
+//    unsigned char data_in[BLUEPRINT_USB_HID_PACKET_SIZE]; //data to read
+//    memset(data_in,0,BLUEPRINT_USB_HID_PACKET_SIZE);
 
-    if (hid_read_timeout(md1_device, data_in, BLUEPRINT_USB_HID_PACKET_SIZE, 1000) < 0){
-        setDeviceStatus(Unplugged);
-        qDebug() << " read error";
-        this->timerSync->stop();
-        this->timerLoop->start(timerLoopInterval);
-        return;
-    }
+//    if (hid_read_timeout(md1_device, data_in, BLUEPRINT_USB_HID_PACKET_SIZE, 1000) < 0){
+//        setDeviceStatus(Unplugged);
+//        qDebug() << " read error";
+//        this->timerSync->stop();
+//        this->timerLoop->start(timerLoopInterval);
+//        return;
+//    }
 
-    if((data_in[0] == SOF) && (data_in[1] == OK) ){
-        qDebug() << "Ok";
-        sync_status = SendPreset_Sync;
-    }
-    return;
-}
+//    if((data_in[0] == SOF) && (data_in[1] == OK) ){
+//        qDebug() << "Ok";
+//        sync_status = SendPreset_Sync;
+//    }
+//    return;
+//}
 
 void BackEnd::SendPresetSync(){
 

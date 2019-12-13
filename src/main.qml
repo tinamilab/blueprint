@@ -524,11 +524,9 @@ ApplicationWindow{
                 rows: 4
                 columnSpacing: -14
                 rowSpacing: -9
-
                 Repeater {
                     id: componentButtons
                     model: 16
-
                     ComponentButton{
                         name: {
                             switch(index){
@@ -584,54 +582,57 @@ ApplicationWindow{
                         }
 
                         type: {
+//                            for(i= 0; i <= 15; i++){
+//                                backend.controlType[i];
+//                            }
                             switch(index){
                             case 0:
-                                backend.control0Type
+                                backend.controlType[0];
                                 break;
                             case 1:
-                                backend.control1Type
+                                backend.controlType[1];;
                                 break;
                             case 2:
-                                backend.control2Type
+                                backend.controlType[2];
                                 break;
                             case 3:
-                                backend.control3Type
+                                backend.controlType[3];
                                 break;
                             case 4:
-                                backend.control4Type
+                                backend.controlType[4];
                                 break;
                             case 5:
-                                backend.control5Type
+                                backend.controlType[5];
                                 break;
                             case 6:
-                                backend.control6Type
+                                backend.controlType[6];
                                 break;
                             case 7:
-                                backend.control7Type
+                                backend.controlType[7];
                                 break;
                             case 8:
-                                backend.control8Type
+                                backend.controlType[8];
                                 break;
                             case 9:
-                                backend.control9Type
+                                backend.controlType[9];
                                 break;
                             case 10:
-                                backend.control10Type
+                                backend.controlType[10];
                                 break;
                             case 11:
-                                backend.control11Type
+                                backend.controlType[11];
                                 break;
                             case 12:
-                                backend.control12Type
+                                backend.controlType[12];
                                 break;
                             case 13:
-                                backend.control13Type
+                                backend.controlType[13];
                                 break;
                             case 14:
-                                backend.control14Type
+                                backend.controlType[14];
                                 break;
                             case 15:
-                                backend.control15Type
+                                backend.controlType[15];
                                 break;
                             }
                         }
