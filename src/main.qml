@@ -54,12 +54,24 @@ ApplicationWindow{
         }
 
         onComponentModeChanged: {
-            switch(backend.deviceMode){
+            switch(backend.componentMode){
             case BackEnd.VoiceNote:
+                componentMode_combo.currentIndex = 1
+                break;
+            case BackEnd.VoicePolyPressure:
                 componentMode_combo.currentIndex = 0
                 break;
             case BackEnd.VoiceControlChange:
-                componentMode_combo.currentIndex = 1
+                componentMode_combo.currentIndex = 0
+                break;
+            case BackEnd.VoiceProgramChange:
+                componentMode_combo.currentIndex = 0
+                break;
+            case BackEnd.VoiceChannelPreassure:
+                componentMode_combo.currentIndex = 0
+                break;
+            case BackEnd.VoicePitchBend:
+                componentMode_combo.currentIndex = 0
                 break;
             }
         }
@@ -177,15 +189,15 @@ ApplicationWindow{
                         color: "#d8d9d1"
                     }
                     model: ListModel{
-                        ListElement{ key: "Voice Note"; value: 0 }
                         ListElement{ key: "CC"; value: 2 }
+                        ListElement{ key: "Voice Note"; value: 0 }
                     }
 
                     onCurrentTextChanged: {
                         if(currentIndex === 0){
-                            backend.setComponentMode(0)
-                        } else if (currentIndex === 1){
                             backend.setComponentMode(2)
+                        } else if (currentIndex === 1){
+                            backend.setComponentMode(0)
                         }
                     }
                 }

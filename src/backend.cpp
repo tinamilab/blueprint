@@ -394,15 +394,13 @@ void BackEnd::setGlobalChannel(const unsigned char &globalChannel)
 
 void BackEnd::setComponentMode(const ComponentMode &deviceMode)
 {
-    int index = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_CONTROL_DATA_SIZE * m_component;
-
-    qDebug() << index << m_preset << m_component << deviceMode;
-
     if (deviceMode == m_componentMode or m_deviceStatus != Working)
         return;
 
-    configuration.preset[m_preset].component[m_component].bytes.mode = static_cast<unsigned char>(deviceMode);
+/*    int index = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_CONTROL_DATA_SIZE * m_component;
+    qDebug() << index << m_preset << m_component << deviceMode;*/
 
+    configuration.preset[m_preset].component[m_component].bytes.mode = static_cast<unsigned char>(deviceMode);
     m_componentMode = deviceMode;
 
     emit componentModeChanged();
@@ -523,22 +521,17 @@ void BackEnd::setSynchronizing(bool &sync)
 
 void BackEnd::selectComponent(const unsigned char &component)
 {
-    unsigned char mode;
-    unsigned char data;
-    unsigned char channel;
-    unsigned char minValue;
-    unsigned char maxValue;
-    unsigned char config; /* Button Behaviour*/
+    if(component == m_component)
+        return;
     m_component = component;
+    unsigned char mode = configuration.preset[m_preset].component[m_component].bytes.mode;
+    unsigned char data = configuration.preset[m_preset].component[m_component].bytes.data;
+    unsigned char channel = configuration.preset[m_preset].component[m_component].bytes.channel;
+    unsigned char minValue = configuration.preset[m_preset].component[m_component].bytes.min;
+    unsigned char maxValue = configuration.preset[m_preset].component[m_component].bytes.max;
+    unsigned char config = configuration.preset[m_preset].component[m_component].bytes.config; /* Button Behaviour*/
 
-    qDebug()<< "Selecting component" << component;
-
-    mode = configuration.preset[m_preset].component[m_component].bytes.mode;
-    data = configuration.preset[m_preset].component[m_component].bytes.data;
-    channel = configuration.preset[m_preset].component[m_component].bytes.channel;
-    minValue = configuration.preset[m_preset].component[m_component].bytes.min;
-    maxValue = configuration.preset[m_preset].component[m_component].bytes.max;
-    config = configuration.preset[m_preset].component[m_component].bytes.config;
+    qDebug()<< "Selecting component" << component << "mode " <<mode;
 
     setComponentMode(static_cast<ComponentMode>(mode));
     setComponentData(data);
