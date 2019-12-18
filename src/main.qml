@@ -287,7 +287,7 @@ ApplicationWindow{
                         ListElement{text: "16"}
                     }
                     onCurrentTextChanged: {
-                        backend.setComponentChannel(currentIndex)
+                        backend.setComponentChannel(currentIndex - 1)
                     }
                 }
             }
