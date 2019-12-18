@@ -519,8 +519,8 @@ void BackEnd::setSynchronizing(bool &sync)
 
 void BackEnd::selectComponent(const unsigned char &component)
 {
-    if(component == m_component)
-        return;
+    /*if(component == m_component)
+        return;*/
     m_component = component;
     unsigned char mode = configuration.preset[m_preset].component[m_component].bytes.mode;
     unsigned char data = configuration.preset[m_preset].component[m_component].bytes.data;
