@@ -1,4 +1,4 @@
-QT += quick svg xml
+QT += quick
 
 CONFIG += c++17
 

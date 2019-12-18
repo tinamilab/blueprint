@@ -435,10 +435,11 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel)
 
     if(controlChannel == m_componentChannel or m_deviceStatus != Working)
         return;
-    if (controlChannel >= 16)
+    if (controlChannel > 16 || controlChannel == 0)
     {
         configuration.preset[m_preset].component[m_component].bytes.channel = 0xFF;
         m_componentChannel = 0xFF;
+
     } else {
         configuration.preset[m_preset].component[m_component].bytes.channel = controlChannel;
         m_componentChannel = controlChannel;
@@ -763,10 +764,10 @@ void BackEnd::SendPresetSync(){
 
     int offset = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_USB_DATA_PACKET_SIZE * packet_num_buffer;
 
-    for (int i = 0; i < 16; ++i) {
+/*    for (int i = 0; i < 16; ++i) {
         if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 16)
             configuration.preset[m_preset].component[i].bytes.channel = m_globalChannel;
-    }
+    }*/
 
     data_out[0] = 0;
     for(int i = 0; i < BLUEPRINT_USB_DATA_PACKET_SIZE; i++){

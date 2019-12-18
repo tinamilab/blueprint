@@ -95,7 +95,7 @@ ApplicationWindow{
 
         onComponentChannelChanged: {
             if(componentChannel >= 16)
-                componentChannel_combo.currentIndex = 16;
+                componentChannel_combo.currentIndex = 0;
             else
                 componentChannel_combo.currentIndex = componentChannel;
         }
@@ -268,6 +268,7 @@ ApplicationWindow{
                         color: "#d8d9d1"
                     }
                     model: ListModel{
+                        ListElement{text: "Global"}
                         ListElement{text: "1"}
                         ListElement{text: "2"}
                         ListElement{text: "3"}
@@ -284,7 +285,6 @@ ApplicationWindow{
                         ListElement{text: "14"}
                         ListElement{text: "15"}
                         ListElement{text: "16"}
-                        ListElement{text: "Global"}
                     }
                     onCurrentTextChanged: {
                         backend.setComponentChannel(currentIndex)
