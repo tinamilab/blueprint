@@ -397,9 +397,6 @@ void BackEnd::setComponentMode(const ComponentMode &deviceMode)
     if (deviceMode == m_componentMode or m_deviceStatus != Working)
         return;
 
-/*    int index = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_CONTROL_DATA_SIZE * m_component;
-    qDebug() << index << m_preset << m_component << deviceMode;*/
-
     configuration.preset[m_preset].component[m_component].bytes.mode = static_cast<unsigned char>(deviceMode);
     m_componentMode = deviceMode;
 
@@ -435,7 +432,7 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel)
 
     if(controlChannel == m_componentChannel or m_deviceStatus != Working)
         return;
-    if (controlChannel > 16 || controlChannel == 0)
+    if (controlChannel >= 16)
     {
         configuration.preset[m_preset].component[m_component].bytes.channel = 0xFF;
         m_componentChannel = 0xFF;
@@ -763,11 +760,6 @@ void BackEnd::SendPresetSync(){
     qDebug() << "Sending preset" << m_preset << " package" << packet_num_buffer;
 
     int offset = BLUEPRINT_PRESET_DATA_SIZE * m_preset + BLUEPRINT_USB_DATA_PACKET_SIZE * packet_num_buffer;
-
-/*    for (int i = 0; i < 16; ++i) {
-        if(configuration.preset[m_preset].component[i].bytes.channel == 255 || configuration.preset[m_preset].component[i].bytes.channel == 16)
-            configuration.preset[m_preset].component[i].bytes.channel = m_globalChannel;
-    }*/
 
     data_out[0] = 0;
     for(int i = 0; i < BLUEPRINT_USB_DATA_PACKET_SIZE; i++){
