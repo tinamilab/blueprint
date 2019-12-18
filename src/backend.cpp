@@ -442,7 +442,7 @@ void BackEnd::setComponentChannel(const unsigned char &controlChannel)
 
     } else {
         configuration.preset[m_preset].component[m_component].bytes.channel = controlChannel;
-        m_componentChannel = controlChannel;
+        m_componentChannel = controlChannel - 1;
     }
 
     emit componentChannelChanged();
