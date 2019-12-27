@@ -33,22 +33,21 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    3rdparty/hidapi/hidapi.h \
     src/backend.h \
     src/control_device.h \
     src/defs.h \
     src/control_midi.h \
     src/tinamicomm.h
 
-INCLUDEPATH += ./3rdparty
+INCLUDEPATH += ./3rdParty/hidapi
 
 #-------------------------------------------------
 # Add the correct HIDAPI library according to what
 # OS is being used
 #-------------------------------------------------
-win32: LIBS += $$PWD/3rdparty/hidapi/win32/libhidapi.a
-macx: LIBS += $$PWD/3rdparty/hidapi/mac/libhidapi.a
-unix: !macx: LIBS += $$PWD/3rdparty/hidapi/gnu_linux/libhidapi-libusb.a
+win32: LIBS += $$PWD/3rdParty/hidapi/windows/.libs/libhidapi.a
+macx: LIBS += $$PWD/3rdParty/hidapi/mac/.libs/libhidapi.a
+unix: !macx: LIBS += $$PWD/3rdParty/hidapi/libusb/.libs/libhidapi-libusb.a
 
 #-------------------------------------------------
 # Make sure to add the required libraries or
@@ -92,5 +91,5 @@ DLLDESTDIR = $${DEST_DIRECTORY}
 DESTDIR    = $${DEST_DIRECTORY}
 
 DISTFILES += \
-    3rdparty/hidapi/gnu_linux/libhidapi-libusb.a \
-    3rdparty/hidapi/win32/libhidapi.a
+    3rdparty/hidapi/hidapi/gnu_linux/libhidapi-libusb.a \
+    3rdparty/hidapi/hidapi/win32/libhidapi.a
