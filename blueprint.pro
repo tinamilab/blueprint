@@ -59,6 +59,8 @@ macx: LIBS += -framework CoreFoundation -framework IOkit
 unix: !macx: LIBS += -lusb-1.0
 
 macx{
+    ICON = $$PWD/src/images/tinami.icns
+
     CONFIG(debug, debug|release) {
         DEST_DIRECTORY = $$PWD/mac/debug
     }
@@ -93,3 +95,9 @@ DESTDIR    = $${DEST_DIRECTORY}
 DISTFILES += \
     3rdparty/hidapi/hidapi/gnu_linux/libhidapi-libusb.a \
     3rdparty/hidapi/hidapi/win32/libhidapi.a
+
+# The application version
+VERSION = 1.0
+
+# Define the preprocessor macro to get the application version in our application.
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
