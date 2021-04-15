@@ -8,7 +8,7 @@
 #include <QThread>
 #include <QVariant>
 
-#include <hidapi/hidapi.h>
+#include "RtMidi.h"
 
 #include "control_midi.h"
 #include "tinamicomm.h"
@@ -19,10 +19,10 @@
 #define BLUEPRINT_CONTROL_TYPE_INDEX 16
 #define BLUEPRINT_PRESET_GLOBAL_CHANNEL_INDEX 16
 
-class BackEnd : public QObject
+    class BackEnd : public QObject
 {
     Q_OBJECT
-        Q_PROPERTY(DeviceStatus deviceStatus READ deviceStatus WRITE setDeviceStatus NOTIFY deviceStatusChanged)
+    Q_PROPERTY(DeviceStatus deviceStatus READ deviceStatus WRITE setDeviceStatus NOTIFY deviceStatusChanged)
 
         Q_PROPERTY(unsigned char preset READ preset WRITE setPreset NOTIFY presetChanged)
 
@@ -45,28 +45,44 @@ class BackEnd : public QObject
 
         enum DeviceStatus{
             Unplugged,
-            Ready_for_config,
+            Pull_Layout,
+            Push_Layout,
+            Pull_Preset,
+            Push_Preset,
+            Idle,
             Ready_for_update,
-            Wrong_data,
             Ok_data,
             Component,
-            Working,
             };
     Q_ENUM(DeviceStatus)
 
-        enum ConfigStatus{
-            Request,
-            WaitFinish,
+        enum PullLayoutStatus{
+            PullLayoutReq,
+            PullLayoutCheck,
             };
 
-        Q_ENUM(ConfigStatus)
+        Q_ENUM(PullLayoutStatus)
 
-        enum ReadPresetStatus{
-            Request_Preset,
-            WaitFinish_Preset,
+        enum PullPresetStatus{
+            PullPresetReq,
+            PullPresetCheck,
             };
 
-        Q_ENUM(ReadPresetStatus)
+        Q_ENUM(PullPresetStatus)
+
+        enum PushLayoutStatus{
+            PushLayoutReq,
+            PushLayoutCheck,
+            };
+
+        Q_ENUM(PushLayoutStatus)
+
+        enum PushPresetStatus{
+            PushPresetReq,
+            PushPresetCheck,
+            };
+
+        Q_ENUM(PushPresetStatus)
 
         enum SyncStatus{
             Request_Sync,
@@ -186,12 +202,12 @@ class BackEnd : public QObject
 
     Control_midi *this_control = new Control_midi();
 
-    void pollUSB(uint16_t deviceVIDtoPoll, uint16_t devicePIDtoPoll);
-    ErrorCode open(uint16_t deviceVIDtoOpen, uint16_t devicePIDtoOpen);
-
     int timerLoopInterval;
-    int timerReadInterval;
-    int timerSyncInterval;
+
+    bool sysExCmdDone;
+
+    void sysExSendMessage(uint8_t command, uint8_t length, uint8_t *buffer);
+    void sysExSendMessage(uint8_t command);
 
 public slots:
     void syncHost2Device();
@@ -219,9 +235,7 @@ public slots:
     void setSynchronizing(bool &sync);
 
 private slots:
-    void timer_timeout();
-    void timerRead_timeout();
-    void timerSync_timeout();
+    void main_state_machine();
 
 signals:
     void deviceStatusChanged();
@@ -236,15 +250,19 @@ signals:
     void componentMaxValueChanged();
     void controlTypeChanged();
     void synchronizingChanged();
+    void openError();
 
 protected:
-    hid_device *md1_device;
     bool deviceConnected;
 
 private:
     DeviceStatus m_deviceStatus;
-    ConfigStatus conf_state;
-    ReadPresetStatus preset_status;
+
+    PushLayoutStatus push_layout_status;
+    PullLayoutStatus layout_status;
+    PushPresetStatus push_preset_status;
+    PullPresetStatus preset_status;
+
     SyncStatus sync_status;
     ComponentButtonBehaviour m_componentButtonBehaviour = NoneBehaviour;
     ComponentMode m_componentMode;
@@ -266,29 +284,21 @@ private:
     /*unsigned char *m_value = new unsigned char [16];*/
 
     QTimer *timerLoop;
-    QTimer *timerRead;
-    QTimer *timerSync;
 
-    void senseValue();
-    void senseDeviceStatus();
-    void readDeviceConfiguration(ConfigStatus &conf_state);
+    void searchDevice();
+    void PullLayout();
+    void PushLayout();
+    void PullPreset(const unsigned char &preset);
+    void PushPreset(const unsigned char &preset);
 
     void readPreset(const unsigned char &preset);
-    void redPresetReq(const unsigned char &preset);
-    void WaitFinishPreset(const unsigned char &preset);
-
-    void syncReq();
-    void WaitOKSync();
-    void SendLayoutSync();
-    void SendFinishSync();
-    void SendReqPresetSync();
-    void WaitOK1Sync();
-    void SendPresetSync();
-    void SendFinish1Sync();
 
     std::vector <unsigned char> change_index;
 
     QList<Control_midi*> controls;
+
+    RtMidiOut *midiout;
+    RtMidiIn *midiin;
 };
 
 #endif // BACKEND_H

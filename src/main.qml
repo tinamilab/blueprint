@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls 1.4 as QQC1
 import QtQuick.Controls.Styles 1.4
 import QtQml 2.1
-//import QtQuick.Dialogs 1.1
+import QtQuick.Dialogs 1.1
 
 //Our modele
 import com.tinami.backend 1.0
@@ -31,8 +31,14 @@ ApplicationWindow{
             case BackEnd.Unplugged:
                 deviceStatusLabel.text = "unplugged";
                 break;
-            case BackEnd.Ready_for_config:
-                deviceStatusLabel.text = "ready for config";
+            case BackEnd.Pull_Layout:
+                deviceStatusLabel.text = "reading layout";
+                break;
+            case BackEnd.Pull_Preset:
+                deviceStatusLabel.text = "reading preset";
+                break;
+            case BackEnd.Idle:
+                deviceStatusLabel.text = "";
                 break;
             case BackEnd.Ready_for_update:
                 deviceStatusLabel.text = "ready for update";
@@ -120,6 +126,21 @@ ApplicationWindow{
 
         onGlobalChannelChanged: {
             globalChannel_combo.currentIndex = backend.globalChannel
+        }
+
+        onOpenError: {
+            messageDialog.visible = true;
+        }
+    }
+
+    MessageDialog {
+        id: messageDialog
+        icon: StandardIcon.Critical
+        title: "Error"
+        text: "The device may be in use by other application"
+        visible: false
+        onAccepted: {
+            console.log("And of course you could only agree.")
         }
     }
 

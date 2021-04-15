@@ -39,13 +39,13 @@ HEADERS += \
     src/control_midi.h \
     src/tinamicomm.h
 
-INCLUDEPATH += ./3rdParty/hidapi
+INCLUDEPATH += ./3rdParty/rtmidi
 
 #-------------------------------------------------
 # Add the correct HIDAPI library according to what
 # OS is being used
 #-------------------------------------------------
-win32: LIBS += $$PWD/3rdParty/hidapi/windows/.libs/libhidapi.a
+#win32: LIBS += $$PWD/3rdParty/hidapi/windows/.libs/libhidapi.a
 macx: LIBS += $$PWD/3rdParty/hidapi/mac/.libs/libhidapi.a
 unix: !macx: LIBS += $$PWD/3rdParty/hidapi/libusb/.libs/libhidapi-libusb.a
 
@@ -54,7 +54,7 @@ unix: !macx: LIBS += $$PWD/3rdParty/hidapi/libusb/.libs/libhidapi-libusb.a
 # frameoworks for the hidapi to work depending on
 # what OS is being used
 #-------------------------------------------------
-win32: LIBS += -lSetupAPI
+win32: LIBS += -lSetupAPI -lwinmm
 macx: LIBS += -framework CoreFoundation -framework IOkit
 unix: !macx: LIBS += -lusb-1.0
 
@@ -78,9 +78,11 @@ unix:!mac{
 }
 win32{
     CONFIG(debug, debug|release) {
+        LIBS += $$PWD/lib/rtmidid.lib
         DEST_DIRECTORY = $$PWD/win32/debug
     }
     CONFIG(release, debug|release) {
+        LIBS += $$PWD/lib/rtmidi.lib
         DEST_DIRECTORY = $$PWD/win32/release
     }
 }
@@ -101,3 +103,4 @@ VERSION = 1.0
 
 # Define the preprocessor macro to get the application version in our application.
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+DEFINES += __WINDOWS_MM__

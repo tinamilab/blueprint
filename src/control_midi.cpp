@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include "control_midi.h"
 #include "defs.h"
